@@ -15,7 +15,7 @@ const regExps = {
 export const search = async (word: string) => {
     const [err, res] = await to(vocabularyApi.get(word));
     if (err) {
-        console.log(`抓取 ${word} 失败！`)
+        console.log(`抓取 ${word} 失败`)
         return null;
     }
     const data = res?.data;
@@ -25,7 +25,7 @@ export const search = async (word: string) => {
         short = data.match(regExps.short)[1];
         long = data.match(regExps.long)[1];
     } catch (e) {
-        console.log(`抓取 ${word} 失败！`)
+        console.log(`抓取 ${word} 失败`)
         return null;
     }
     return { w, short, long };
