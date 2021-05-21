@@ -16,9 +16,9 @@ class Model{
     }
 
     handleResponse<T>(response:[Error, undefined] | [null, T]) {
-        const [err,data]=response;
-        if(err){
-            console.log(err);
+        const [e,data]=response;
+        if(e){
+            console.log(e);
             return null;
         }else{
             return data;
