@@ -1,33 +1,37 @@
-type Audio={
-    title:string,
-    url:string
-}[]
+type Audio = {
+    title: string,  // 发音，含有音标
+    url: string     // 发音文件地址
+}
+export type Audios = Audio[]
 
-const __urlRegExp=/ClientAudioPlayer\.Play\('(.*)','/;
-export const getAuido=(dom:HTMLDocument)=>{
-    const ans:Audio=[];
-    const audios=dom.querySelectorAll('.client_def_hd_pn_list');
-    for(let i of audios){
-        const singleAudio={
-            title:'',
-            url:''
-        };
-        const title=i.querySelector('.client_def_hd_pn');
-        if(title){
-            singleAudio.title=title.innerHTML;
-        }
-        const url=i.querySelector('.client_aud_o');
-        if(url){
-            const urlStr=url.getAttribute('onmouseover');
-            if(urlStr){
-               singleAudio= urlStr.match(__urlRegExp)[1]?urlStr.match(__urlRegExp)[1]:''
-            }
-
-        }
-        audioInfo.head=.innerHTML;
-        let urlStr=.getAttribute('onmouseover').match(__urlRegExp);
-        audioInfo.url=urlStr?urlStr[1]:'';
-        ans.push(audioInfo);
+export const getAuido = (dom: HTMLDocument) => {
+    const ans: Audios = [];
+    const audios = dom.querySelectorAll('.client_def_hd_pn_list');
+    for (let i of audios) {
+        ans.push(paresAuido(i));
     }
     return ans;
+}
+
+const __urlRegExp = /ClientAudioPlayer\.Play\('(.*)','/;
+const paresAuido = (auido: Element) => {
+    const singleAudio: Audio = {
+        title: '',
+        url: ''
+    };
+    const title = auido.querySelector('.client_def_hd_pn');
+    if (title) {
+        singleAudio.title = title.innerHTML;
+    }
+    const url = auido.querySelector('.client_aud_o');
+    if (url) {
+        const urlStr = url.getAttribute('onmouseover');
+        if (urlStr) {
+            const urlMatch = urlStr.match(__urlRegExp);
+            if (urlMatch) {
+                singleAudio.url = urlMatch ? urlMatch[1] : '';
+            }
+        }
+    }
+    return singleAudio;
 }
