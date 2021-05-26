@@ -15,8 +15,8 @@ export const getDefinition = (dom: HTMLDocument) => {
             title: '',
             item: ''
         }
-        singleDefine.title = titles[i].innerHTML;
-        singleDefine.item = items[i].innerHTML;
+        singleDefine.title = titles[i]?.innerHTML;
+        singleDefine.item = items[i]?.innerHTML;
         ans.push(singleDefine);
     }
     return ans;

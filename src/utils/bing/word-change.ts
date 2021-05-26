@@ -1,4 +1,4 @@
-type WordChange={
+export type WordChange={
     key:string,
     val:string
 }[]
