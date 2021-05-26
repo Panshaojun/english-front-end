@@ -1,6 +1,10 @@
 import to from 'await-to-js';
 import {api} from '@/api';
-class Model{
+
+/**
+ * 这是后台sails提供的简便api，通过hhtp请求方式的不同，实现对表的增删改查，非常方便
+ */
+export default class Model{
     constructor(private modelName:string){}
 
     async create<T>(requestData:object={}){
@@ -19,7 +23,3 @@ class Model{
         return data;
     }
 }
-
-export const KaoyanModel=new Model('kaoyan');
-export const KaoyanVocabularyModel=new Model('kaoyanvocabulary');
-export const KaoyanbingModel=new Model('kaoyanbing');
