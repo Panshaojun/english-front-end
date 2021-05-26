@@ -13,7 +13,13 @@ export default class Model {
     }
 
     async findWhere<T>(params: {
-        [kee in string]: string
+        where?:JSON,
+        limit?:number,
+        skip?:number,
+        sort?:"age ASC"|string,
+        select?:"name,age"|string,
+        omit?:"favoriteColor,address"|string,
+        populate?:string
     }) {
         return this.handleResponse(await to<AxiosResponse<T>>(api.get(this.modelName, { params })))
     }

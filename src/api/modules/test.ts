@@ -2,7 +2,6 @@ import { api } from '@/api';
 import { to } from 'await-to-js';
 
 export const fetchFile = async (fileStr: string) => {
-    return '';
     if (fileStr === '') {
         return false;
     }
