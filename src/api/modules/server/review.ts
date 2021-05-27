@@ -4,4 +4,4 @@ export type Review={
     date:string,
     ids:number[]
 }
-export const KaoyanModel=new Model('review');
+const KaoyanModel=new Model('review');

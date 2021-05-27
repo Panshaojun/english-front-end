@@ -4,4 +4,4 @@ export type KaoYan={
     w:string,
     e:string
 }
-export const KaoyanModel=new Model('kaoyan');
+const KaoyanModel=new Model('kaoyan');

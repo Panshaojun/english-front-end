@@ -3,7 +3,8 @@ import to from 'await-to-js';
 import { api } from '@/api';
 
 /**
- * 这是后台sails提供的简便api，通过hhtp请求方式的不同，实现对表的增删改查，非常方便
+ * sails提供了基于http请求方式的不同，实现了对表的增删改查的简便api，非常方便
+ * 这里将其写成一个请求类
  */
 export default class Model {
     constructor(private modelName: string) { }
