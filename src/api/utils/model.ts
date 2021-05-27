@@ -24,6 +24,19 @@ export default class Model {
     }) {
         return handleResponse(await to<AxiosResponse<T>>(api.get(this.modelName, { params })))
     }
+
+    async findOne<T>(id?:number){
+        const url=id?`${this.modelName}/${id}`:this.modelName;
+        return handleResponse(await to<AxiosResponse<T>>(api.get(url)))
+    }
+
+    async update<T extends object>(id:number,data:T){
+        return handleResponse(await to<AxiosResponse<T>>(api.patch(`${this.modelName}/${id}`,data)))
+    }
+
+    async destroy<T extends object>(id:number){
+        return handleResponse(await to<AxiosResponse<T>>(api.delete(`${this.modelName}/${id}`)))
+    }
 }
 
 const handleResponse=<T>(response: [Error, undefined] | [null, AxiosResponse<T>])=> {

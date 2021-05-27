@@ -5,3 +5,7 @@ export type KaoYan={
     e:string
 }
 const KaoyanModel=new Model('kaoyan');
+
+export const findAll=<T>()=>{
+    return KaoyanModel.findOne<T>();
+}
