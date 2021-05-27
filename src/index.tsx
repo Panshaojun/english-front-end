@@ -1,11 +1,15 @@
 import ReactDOM from 'react-dom';
 import Layout from './components/layout';
-import {BrowserRouter as Router} from 'react-router-dom';
+import { Provider } from 'mobx-react'
+import store from './store'
+import { BrowserRouter as Router } from 'react-router-dom';
 import 'antd/dist/antd.css';
 
 ReactDOM.render(
-  <Router>
-    <Layout/>
-  </Router>,
+  <Provider {...store}>
+    <Router>
+      <Layout />
+    </Router>
+  </Provider>,
   document.getElementById('root')
 );

@@ -9,7 +9,7 @@ export default class Model {
     constructor(private modelName: string) { }
 
     async create<T>(requestData: object = {}) {
-        return this.handleResponse(await to<AxiosResponse<T>>(api.post(this.modelName, requestData)))
+        return handleResponse(await to<AxiosResponse<T>>(api.post(this.modelName, requestData)))
     }
 
     async findWhere<T>(params: {
@@ -21,18 +21,18 @@ export default class Model {
         omit?:"favoriteColor,address"|string,
         populate?:string
     }) {
-        return this.handleResponse(await to<AxiosResponse<T>>(api.get(this.modelName, { params })))
+        return handleResponse(await to<AxiosResponse<T>>(api.get(this.modelName, { params })))
     }
+}
 
-    handleResponse<T>(response: [Error, undefined] | [null, AxiosResponse<T>]) {
-        const [e, data] = response;
-        if (e) {
-            console.log(e);
-            return null;
-        }
-        if(!data){
-            return null
-        }
-        return data.data;
+const handleResponse=<T>(response: [Error, undefined] | [null, AxiosResponse<T>])=> {
+    const [e, data] = response;
+    if (e) {
+        console.log(e);
+        return null;
     }
+    if(!data){
+        return null
+    }
+    return data.data;
 }
