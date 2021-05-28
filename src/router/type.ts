@@ -1,8 +1,8 @@
-import {ComponentType} from "react";
+import {ComponentType,FC} from "react";
 
 export type Route={
     path:string,
-    component:ComponentType,
+    component:any,
     Routes?:Routes
 }
 export type Routes=Route[];

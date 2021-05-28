@@ -7,5 +7,5 @@ export type KaoYan={
 const KaoyanModel=new Model('kaoyan');
 
 export const findAll=<T>()=>{
-    return KaoyanModel.findOne<T>();
+    return KaoyanModel.findAll<T>();
 }

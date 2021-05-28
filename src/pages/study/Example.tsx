@@ -1,6 +1,6 @@
 import { FC } from 'react';
-import { Row, Col } from 'antd';
-import { KaoYan } from '@/api/modules/kaoyan';
+import { Col } from 'antd';
+import {KaoYan} from '@/api/modules/server/kaoyan';
 
 const Example: FC<{ data: KaoYan }> = ({ data }) => {
     return (

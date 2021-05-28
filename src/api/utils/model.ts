@@ -1,4 +1,4 @@
-import {AxiosResponse} from 'axios';
+import { AxiosResponse } from 'axios';
 import to from 'await-to-js';
 import { api } from '@/api';
 
@@ -14,38 +14,41 @@ export default class Model {
     }
 
     async findWhere<T>(params: {
-        where?:JSON,
-        limit?:number,
-        skip?:number,
-        sort?:"age ASC"|string,
-        select?:"name,age"|string,
-        omit?:"favoriteColor,address"|string,
-        populate?:string
+        where?: JSON,
+        limit?: number,
+        skip?: number,
+        sort?: "age ASC" | string,
+        select?: "name,age" | string,
+        omit?: "favoriteColor,address" | string,
+        populate?: string
     }) {
         return handleResponse(await to<AxiosResponse<T>>(api.get(this.modelName, { params })))
     }
 
-    async findOne<T>(id?:number){
-        const url=id?`${this.modelName}/${id}`:this.modelName;
-        return handleResponse(await to<AxiosResponse<T>>(api.get(url)))
+    async findOne<T>(id: number) {
+        return handleResponse(await to<AxiosResponse<T>>(api.get(`${this.modelName}/${id}`)))
     }
 
-    async update<T extends object>(id:number,data:T){
-        return handleResponse(await to<AxiosResponse<T>>(api.patch(`${this.modelName}/${id}`,data)))
+    async findAll<T>() {
+        return handleResponse(await to<AxiosResponse<T>>(api.get(this.modelName)))
     }
 
-    async destroy<T extends object>(id:number){
+    async update<T extends object>(id: number, data: T) {
+        return handleResponse(await to<AxiosResponse<T>>(api.patch(`${this.modelName}/${id}`, data)))
+    }
+
+    async destroy<T extends object>(id: number) {
         return handleResponse(await to<AxiosResponse<T>>(api.delete(`${this.modelName}/${id}`)))
     }
 }
 
-const handleResponse=<T>(response: [Error, undefined] | [null, AxiosResponse<T>])=> {
+const handleResponse = <T>(response: [Error, undefined] | [null, AxiosResponse<T>]) => {
     const [e, data] = response;
     if (e) {
         console.log(e);
         return null;
     }
-    if(!data){
+    if (!data) {
         return null
     }
     return data.data;
