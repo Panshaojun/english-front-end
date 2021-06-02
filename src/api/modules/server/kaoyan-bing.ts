@@ -21,5 +21,5 @@ export type KaoYanBing = {
     sider: Parts,
 }
 export const create = (data: KaoYanBing) => {
-    return KaoyanBingModel.create<ResponseType<string>>(data)
+    return KaoyanBingModel.create<KaoYanBing>(data)
 }

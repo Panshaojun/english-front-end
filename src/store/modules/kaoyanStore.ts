@@ -1,5 +1,7 @@
-import { observable, action,makeObservable } from 'mobx';
-import { KaoYan, findAll } from '@/api/modules/server/kaoyan';
+import { observable, action, makeObservable } from 'mobx';
+import { KaoYan, findAll as KaoyanFindAll } from '@/api/modules/server/kaoyan';
+import { create, findAll as ReviewFindAll, ReviewData } from '@/api/modules/server/review';
+import moment from 'moment';
 export default class KaoYanStore {
     @observable.ref
     protected __data: KaoYan[] = [];            //原始数据
@@ -8,27 +10,53 @@ export default class KaoYanStore {
     @observable
     public __showLength: number = 50;           //展示的总长度
 
-    @observable.ref
-    public studyData: KaoYan[] = [];         //学习数组
+    @observable //ref是浅观察，检测不到自身length
+    public studyData: KaoYan[] = [];            //学习数组
     @observable
-    public studyLength: number = 0;        //学习长度
-
+    public studyLength: number = 0;             //学习长度
+    @observable.ref
+    public reviewData: ReviewData[] = [];       //展示数组
     @observable.ref
     public showData: KaoYan[] = [];             //展示数组
+
+    @observable
+    public loading = false;
 
 
     constructor() {
         makeObservable(this);
-        findAll<KaoYan[]>().then(action((res) => {
-            if (res) {
-                this.__data = res;
-                this.init();
-            }
-        }))
+        this.fetchData();
+    }
+
+    fetchData() {
+        if (this.__data.length) {
+            ReviewFindAll().then(action((res) => {
+                this.reviewData = res ?? [];
+            })).finally(() => this.init());
+        } else {
+            Promise.all([
+                KaoyanFindAll<KaoYan[]>(),
+                ReviewFindAll()
+            ]).then(action(([res1, res2]) => {
+                this.__data = res1 ?? [];
+                this.reviewData = res2 ?? [];
+            })).finally(() => this.init());
+        }
     }
 
     @action.bound init() {
-        this.__showStartIndex = 0;
+        let showStartIndex: number = 0;
+        if (this.reviewData.length) {
+            const lastReview = this.reviewData[this.reviewData.length - 1];
+            if (lastReview.ids.length) {
+                const id = lastReview.ids[lastReview.ids.length - 1];
+                let tempIndex = this.__data.findIndex(i => i.id === id);
+                if (tempIndex !== -1) {
+                    showStartIndex = tempIndex + 1;
+                }
+            }
+        }
+        this.__showStartIndex = showStartIndex;
         this.__showLength = 50;
         this.showData = this.__data.slice(this.__showStartIndex, this.__showStartIndex + this.__showLength);
         this.studyLength = 50;
@@ -81,5 +109,20 @@ export default class KaoYanStore {
             this.showData = temp;
             this.studyData.splice(index, 1);
         }
+    }
+
+    @action.bound upload() {
+        this.loading = true;
+        const ids: number[] = [];
+        for (let i of this.studyData) {
+            ids.push(i.id);
+        }
+        const date = moment().format('Y-MM-DD');
+        create({
+            date,
+            ids
+        }).then(() => {
+            this.fetchData();
+        }).finally(action(() => this.loading = false))
     }
 }
