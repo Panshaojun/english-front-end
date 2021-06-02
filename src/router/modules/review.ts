@@ -1,4 +1,15 @@
 import {Routes} from '@/router/type';
-const rotues:Routes=[]
+import ReviewToday from '@/pages/review-today';
+import ReviewAll from '@/pages/review-all';
+const rotues:Routes=[
+    {
+        path:'/review-today',
+        component:ReviewToday
+    },
+    {
+        path:'/review-all',
+        component:ReviewAll
+    }
+]
 
 export default rotues;

@@ -29,12 +29,12 @@ const Nav = () => {
         </Item>
       </SubMenu>
       <SubMenu key="sub2" icon={<AreaChartOutlined style={{ fontSize: '25px', top: '5px', position: 'relative' }} />} title="旧单词">
-        <Item key="5">Option 5</Item>
-        <Item key="6">Option 6</Item>
-        <SubMenu key="sub3" title="Submenu">
-          <Item key="7">Option 7</Item>
-          <Item key="8">Option 8</Item>
-        </SubMenu>
+        <Item key="/review-today">
+          <Link to="/review-today">今日复习</Link>
+        </Item>
+        <Item key="/review-all">
+          <Link to="/review-all">全部复习</Link>
+        </Item>
       </SubMenu>
       <SubMenu key="sub4" icon={<SettingOutlined style={{ fontSize: '25px', top: '5px', position: 'relative' }} />} title="管理">
         <Item key="9">Option 9</Item>

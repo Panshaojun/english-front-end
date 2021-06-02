@@ -15,8 +15,6 @@ export default class KaoYanStore {
     @observable
     public studyLength: number = 0;             //学习长度
     @observable.ref
-    public reviewData: ReviewData[] = [];       //展示数组
-    @observable.ref
     public showData: KaoYan[] = [];             //展示数组
 
     @observable
@@ -31,7 +29,7 @@ export default class KaoYanStore {
     fetchData() {
         if (this.__data.length) {
             ReviewFindAll().then(action((res) => {
-                this.reviewData = res ?? [];
+                this.findShowStartIndex(res ?? []);
             })).finally(() => this.init());
         } else {
             Promise.all([
@@ -39,15 +37,15 @@ export default class KaoYanStore {
                 ReviewFindAll()
             ]).then(action(([res1, res2]) => {
                 this.__data = res1 ?? [];
-                this.reviewData = res2 ?? [];
+                this.findShowStartIndex(res2 ?? []);
             })).finally(() => this.init());
         }
     }
 
-    @action.bound init() {
+    findShowStartIndex(reviewData:ReviewData[]){
         let showStartIndex: number = 0;
-        if (this.reviewData.length) {
-            const lastReview = this.reviewData[this.reviewData.length - 1];
+        if (reviewData.length) {
+            const lastReview = reviewData[reviewData.length - 1];
             if (lastReview.ids.length) {
                 const id = lastReview.ids[lastReview.ids.length - 1];
                 let tempIndex = this.__data.findIndex(i => i.id === id);
@@ -57,6 +55,9 @@ export default class KaoYanStore {
             }
         }
         this.__showStartIndex = showStartIndex;
+    }
+
+    @action.bound init() {
         this.__showLength = 50;
         this.showData = this.__data.slice(this.__showStartIndex, this.__showStartIndex + this.__showLength);
         this.studyLength = 50;

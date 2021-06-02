@@ -1,5 +1,4 @@
 import Model from '@/api/utils/model';
-import { ResponseType } from '@/api';
 import { Audios } from '@/api/utils/bingParser/auido';
 import { Definition } from '@/api/utils/bingParser/definition';
 import { Dictionary } from '@/api/utils/bingParser/english-chinese-dictionary';
@@ -20,6 +19,14 @@ export type KaoYanBing = {
     idioms: Idioms,
     sider: Parts,
 }
+export type KaoYanBingData = KaoYanBing&{id:number};
+
 export const create = (data: KaoYanBing) => {
-    return KaoyanBingModel.create<KaoYanBing>(data)
+    return KaoyanBingModel.create<KaoYanBingData>(data)
+}
+
+export const findByArray=(ids:number[])=>{
+    return KaoyanBingModel.findWhere<KaoYanBingData[]>({
+        where:{id:ids}
+    })
 }

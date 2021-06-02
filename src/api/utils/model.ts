@@ -14,7 +14,7 @@ export default class Model {
     }
 
     async findWhere<T>(params: {
-        where?: JSON,
+        where?: object,
         limit?: number,
         skip?: number,
         sort?: "age ASC" | string,
