@@ -1,15 +1,16 @@
 import { observable, action, makeObservable } from 'mobx';
-import { create, findAll as ReviewFindAll, ReviewData } from '@/api/modules/server/review';
+import { findAll as ReviewFindAll, ReviewData } from '@/api/modules/server/review';
 import moment from 'moment';
 export default class ReviewStore {
     @observable.ref
     private __data: ReviewData[] = [];
     @observable.ref
-    private reviewToday: ReviewData[] = [];
+    public reviewToday: ReviewData[] = [];
     constructor() {
         makeObservable(this);
         this.fetchData();
     }
+    @action.bound
     fetchData() {
         ReviewFindAll().then(action((res) => {
             this.__data = res ?? [];
@@ -27,7 +28,6 @@ export default class ReviewStore {
                 }
             }
             this.reviewToday=reviewToday;
-            console.log(reviewToday);
         }))
     }
 }
