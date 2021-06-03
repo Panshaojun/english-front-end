@@ -9,7 +9,7 @@ const Word: FC<{
         <Row>
             <Col span={1}></Col>
             <Col span={3}>
-                <Vocabulary wordId={data.id}>
+                <Vocabulary wordId={data.id} word={data.w}>
                     {data.w}
                 </Vocabulary>
             </Col>

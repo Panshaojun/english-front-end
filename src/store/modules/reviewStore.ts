@@ -14,20 +14,20 @@ export default class ReviewStore {
     fetchData() {
         ReviewFindAll().then(action((res) => {
             this.__data = res ?? [];
-            const reviewToday:ReviewData[]=[];
+            const reviewToday: ReviewData[] = [];
             let Ebbinghaus = [0, 1, 2, 4, 7, 15];
-            let reviewsDay:string[] = [];
+            let reviewsDay: string[] = [];
             for (let i of Ebbinghaus) {
                 reviewsDay.push(moment(Date.now() - i * 24 * 60 * 60 * 1000).format('Y-MM-DD'));
             }
-            for(let i of reviewsDay){
-                for(let j of this.__data){
-                    if(i===j.date){
+            for (let i of reviewsDay) {
+                for (let j of this.__data) {
+                    if (i === j.date) {
                         reviewToday.push(j)
                     }
                 }
             }
-            this.reviewToday=reviewToday;
+            this.reviewToday = reviewToday;
         }))
     }
 }

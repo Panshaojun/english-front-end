@@ -1,5 +1,6 @@
 import { observable, action, makeObservable } from 'mobx';
-import { KaoyanVocabularyData,findOne } from '@/api/modules/server/kaoyan-vocabulary';
+import { KaoyanVocabularyData,findOne,create } from '@/api/modules/server/kaoyan-vocabulary';
+import {parserVocabulary} from '@/api/modules/others/vocabulary';
 
 export default class VocalbularyStore{
     @observable.ref
@@ -9,7 +10,7 @@ export default class VocalbularyStore{
     }
 
     @action.bound
-    getById(id:number,setState:(data:KaoyanVocabularyData)=>void){
+    getVocalbulary(id:number,word:string,setState:(data:KaoyanVocabularyData)=>void){
         const find1=this.___data.find(i=>i.id===id);
         if(find1){
             setState(find1)
@@ -24,11 +25,21 @@ export default class VocalbularyStore{
                         setState(find2);
                     }
                 }else{
-                    console.log("捕捉到错误了1")
+                    parserVocabulary(word).then(res1=>{
+                        if(res1){
+                            create({...res1,id}).then(res2=>{
+                                if(res2){
+                                    this.___data=[...this.___data,res2];
+                                    setState(res2);
+                                }
+                            })
+                        }
+                    })
                 }
             })).catch(err=>{
                 console.log("捕捉到错误了2")
             })
         }
     }
+
 }

@@ -9,6 +9,9 @@ export type KaoyanVocabulary={
     long:Long
 }
 export type KaoyanVocabularyData=KaoyanVocabulary&{id:number}
+export const create=(req:KaoyanVocabularyData)=>{
+    return KaoyanVocabularyModel.create<KaoyanVocabularyData>(req);
+}
 export const findOne=(id:number)=>{
     return KaoyanVocabularyModel.findOne<KaoyanVocabularyData>(id)
 }
