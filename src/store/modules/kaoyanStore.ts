@@ -17,9 +17,11 @@ export default class KaoYanStore {
     @observable.ref
     public showData: KaoYan[] = [];             //展示数组
 
+    @observable.ref
+    public reviewData:KaoYan[]=[];              //复习数组
+
     @observable
     public loading = false;
-
 
     constructor() {
         makeObservable(this);
@@ -125,5 +127,16 @@ export default class KaoYanStore {
         }).then(() => {
             this.fetchData();
         }).finally(action(() => this.loading = false))
+    }
+
+    @action.bound getReview(ids:number[]){
+        const ans:KaoYan[]=[];
+        for(let id of ids){
+            const find=this.__data.find(i=>i.id===id);
+            if(find){
+                ans.push(find)
+            }
+        }
+        this.reviewData=ans;
     }
 }
