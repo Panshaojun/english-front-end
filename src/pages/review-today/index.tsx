@@ -20,7 +20,6 @@ const ReviewToday = () => {
                 </Col>
             </Col>
             <Col span={5}></Col>
-
         </Row>
     )
 }
