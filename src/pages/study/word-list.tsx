@@ -12,7 +12,7 @@ const WordShow = () => {
                         return (
                             <li key={i.id}>
                                 <WordItem data={i} >
-                                <Button onClick={() => addStudy(i.id)}>
+                                    <Button onClick={() => addStudy(i.id)}>
                                         学习
                                         </Button>
                                 </WordItem>

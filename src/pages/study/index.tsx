@@ -5,8 +5,8 @@ import './index.scss';
 const Study = () => {
     return (
         <>
-            <TopOpt/>
-            <WordList/>
+            <TopOpt />
+            <WordList />
         </>
     )
 }

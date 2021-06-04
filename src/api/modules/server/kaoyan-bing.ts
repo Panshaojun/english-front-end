@@ -30,3 +30,7 @@ export const findByArray=(ids:number[])=>{
         where:{id:ids}
     })
 }
+
+export const findOne=(id:number)=>{
+    return KaoyanBingModel.findOne<KaoYanBingData>(id);
+}

@@ -1,5 +1,5 @@
 import { observable, action, makeObservable } from 'mobx';
-import { KaoYanBingData, findByArray } from '@/api/modules/server/kaoyan-bing';
+import { KaoYanBingData, findByArray, findOne } from '@/api/modules/server/kaoyan-bing';
 
 export default class BingStore {
     @observable.ref
@@ -19,7 +19,6 @@ export default class BingStore {
             return;
         }
         findByArray(temp).then(action((res) => {
-            console.log(res);
             const ans = res ?? [];
             if (ans.length) {
                 this.__data = [...this.__data, ...ans];
@@ -28,9 +27,20 @@ export default class BingStore {
     }
 
     @action.bound
-    data(id: number) {
+    getData(id: number, setCall: (data: KaoYanBingData) => void) {
         let ans: KaoYanBingData | undefined;
         ans = this.__data.find(i => i.id === id);
-        return ans || {};
+        if (ans) {
+            return setCall(ans);
+        }
+        findOne(id).then(action(res => {
+            if (res) {
+                setCall(res);
+                let ans2 = this.__data.find(i => i.id === id);
+                if (!ans2) {
+                    this.__data = [...this.__data, res];
+                }
+            }
+        }))
     }
 }
