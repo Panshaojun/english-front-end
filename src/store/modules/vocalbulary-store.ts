@@ -36,9 +36,7 @@ export default class VocalbularyStore{
                         }
                     })
                 }
-            })).catch(err=>{
-                console.log("捕捉到错误了2")
-            })
+            }))
         }
     }
 

@@ -8,7 +8,7 @@ const ChineseTranslation:FC<{explain:string}>=({explain})=>{
     )
     return (
         <Popover content={content} title="单词释义">
-            <TranslationOutlined />
+            <TranslationOutlined style={{ fontSize: '20px', color: '#08c' }} />
         </Popover>
     )
 }

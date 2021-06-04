@@ -1,6 +1,6 @@
 import TopOpt from './top-opt';
-import WordList from './word-list'
-import './index.scss'
+import WordList from './word-list';
+import './index.scss';
 
 const Study = () => {
     return (
