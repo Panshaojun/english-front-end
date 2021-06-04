@@ -24,7 +24,7 @@ const WordItem: FC<{
     },[bing])
     return (
         <Row>
-            <Col span={4}>
+            <Col span={6}>
                 <Vocabulary wordId={data.id} word={data.w}>
                     {data.w}
                 </Vocabulary>

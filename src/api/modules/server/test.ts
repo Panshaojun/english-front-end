@@ -11,8 +11,6 @@ export const fetchFile = async (fileStr: string) => {
         return null;
     }
     const fileName = fileStr.split('/').slice(5).join('');
-    console.log(fileName)
-    console.log(fileUrl)
     if (fileUrl && fileName) {
         const [e, data] = await to(api.post('test/fetchfile', { fileName, fileUrl }));
         if (e) {

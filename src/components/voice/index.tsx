@@ -5,7 +5,6 @@ const Voice: FC<{ fileUrl: string }> = ({ fileUrl, children }) => {
     const [url, setUrl] = useState<string>("");
     useEffect(() => {
         if (fileUrl) {
-            console.log(fileUrl)
             fetchFile(fileUrl).then(res => {
                 if (res) {
                     setUrl(res);

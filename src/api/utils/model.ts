@@ -45,7 +45,6 @@ export default class Model {
 const handleResponse = <T>(response: [Error, undefined] | [null, AxiosResponse<T>]) => {
     const [e, data] = response;
     if (e) {
-        console.log(e);
         return null;
     }
     if (!data) {

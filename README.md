@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# 一款自用的学习英语的App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+之前做了一款基于 <b style="color:#41B883">Vue</b> 的英语学习app，仅仅只有英文单词、中文解释、英语发音的功能，并且界面没使用UI库，比较简洁；
 
-## Available Scripts
+这次，基于<b style="color:#0F78FF">Typescript</b> + **react** + <b style="color:#23BDFF">antDesign</b> 重新设计了前端页面，并且添加了许多功能，除了之前vue的功能外，增加的功能有
+> + 对vocabulary网站数据的爬取，并存进数据库
+> + 对bing网站爬取的数据更加精细的拆分获取，并存进数据库
+> + 对单词的管理
 
-In the project directory, you can run:
+# 系统模块设计
+## 一、学习模块
+### 1.1 对新单词的学习
+可以有选择的根据自己的情况学习单词并存档。
+![单词学习](./docs/imgs/screen-capture/学习单词.png)
 
-### `npm start`
+### 1.2 vocabulary词典
+将鼠标悬浮至单词上，会从数据库获取vocabulary词典相关数据，如果没有，将会自动爬取vocabulary并存进数据库。
+![vocabulary词典](./docs/imgs/screen-capture/vocabulary词典.png)
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### 1.3 中文释义
+此数据自己获取并存放数据库，可以去网上找，我找的是考研单词5500。
+![中文释义](./docs/imgs/screen-capture/中文释义.png)
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### 1.4 单词发音
+悬浮发音按钮，会自动播放发音功能，该功能是自动判断数据库有没有数据，没有便会自动获取单词相关发音并下载至服务器。
 
-### `npm test`
+## 二、复习模块
+### 2.1 今日复习
+该模块根据艾宾浩斯曲线，自动计算日期得到今日该复习的单词。
+![今日复习](./docs/imgs/screen-capture/复习功能.png)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 2.2 所有复习
+展示所有复习模块，自主学习
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 三、管理模块
+管理单词、bing、vocabulary等数据库数据。
