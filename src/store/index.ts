@@ -1,8 +1,8 @@
 import { createContext, useContext } from 'react';
 import bingStore from './modules/bing-store';
 import kaoyanStore from './modules/kaoyan-store';
-import reviewStore from './modules/reviewStore';
-import vocalbularyStore from './modules/vocalbularyStore';
+import reviewStore from './modules/review-store';
+import vocalbularyStore from './modules/vocalbulary-store';
 const storeContext = createContext({
     reviewStore: new reviewStore(),
     bingStore: new bingStore(),

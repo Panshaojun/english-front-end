@@ -2,7 +2,7 @@
 import { observer } from 'mobx-react';
 import { List, Row, Col, Divider } from 'antd';
 import useStores from '@/store';
-import Review from './Review';
+import Review from './review';
 const ReviewToday = () => {
     const { reviewStore } = useStores();
     const { reviewToday } = reviewStore;
