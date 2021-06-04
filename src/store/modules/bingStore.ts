@@ -15,10 +15,11 @@ export default class BingStore {
                 temp.push(i);
             }
         }
-        if (temp.length) {
+        if (!temp.length) {
             return;
         }
         findByArray(temp).then(action((res) => {
+            console.log(res);
             const ans = res ?? [];
             if (ans.length) {
                 this.__data = [...this.__data, ...ans];

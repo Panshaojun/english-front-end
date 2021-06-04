@@ -1,12 +1,12 @@
-import TopOpt from './TopOpt';
-import WordShow from './WordShow'
+import TopOpt from './top-opt';
+import WordList from './word-list'
 import './index.scss'
 
 const Study = () => {
     return (
         <>
             <TopOpt/>
-            <WordShow/>
+            <WordList/>
         </>
     )
 }

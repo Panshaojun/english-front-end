@@ -1,5 +1,4 @@
-import { FC } from 'react';
-import { KaoYan } from '@/api/modules/server/kaoyan';
+import WordItem from './word-item';
 import { Row, Col, Button } from 'antd';
 import { observer } from 'mobx-react';
 import useStores from '@/store';
@@ -12,11 +11,11 @@ const WordShow = () => {
                     {showData.map((i) => {
                         return (
                             <li key={i.id}>
-                                <Word data={i} >
-                                    <Button onClick={() => addStudy(i.id)}>
+                                <WordItem data={i} >
+                                <Button onClick={() => addStudy(i.id)}>
                                         学习
                                         </Button>
-                                </Word>
+                                </WordItem>
                             </li>
                         )
                     })}
@@ -27,11 +26,11 @@ const WordShow = () => {
                     {studyData.map((i) => {
                         return (
                             <li key={i.id}>
-                                <Word data={i} >
+                                <WordItem data={i} >
                                     <Button onClick={() => delStudy(i.id)}>
                                         删除
                                         </Button>
-                                </Word>
+                                </WordItem>
                             </li>
                         )
                     })}
@@ -41,17 +40,3 @@ const WordShow = () => {
     )
 }
 export default observer(WordShow)
-
-const Word: FC<{
-    data: KaoYan,
-}> = ({ data, children }) => {
-    return (
-        <Row>
-            <Col span={4}>{data.w}</Col>
-            <Col span={17}>{data.e}</Col>
-            <Col span={3}>
-                {children}
-            </Col>
-        </Row>
-    )
-}
