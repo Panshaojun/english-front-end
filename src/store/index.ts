@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
-import bingStore from './modules/bingStore';
-import kaoyanStore from './modules/kaoyanStore';
+import bingStore from './modules/bing-store';
+import kaoyanStore from './modules/kaoyan-store';
 import reviewStore from './modules/reviewStore';
 import vocalbularyStore from './modules/vocalbularyStore';
 const storeContext = createContext({
