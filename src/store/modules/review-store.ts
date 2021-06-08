@@ -3,7 +3,7 @@ import { findAll as ReviewFindAll, ReviewData } from '@/api/modules/server/revie
 import moment from 'moment';
 export default class ReviewStore {
     @observable.ref
-    private __data: ReviewData[] = [];
+    public data: ReviewData[] = [];
     @observable.ref
     public reviewToday: ReviewData[] = [];
     constructor() {
@@ -13,7 +13,7 @@ export default class ReviewStore {
     @action.bound
     fetchData() {
         ReviewFindAll().then(action((res) => {
-            this.__data = res ?? [];
+            this.data = res ?? [];
             const reviewToday: ReviewData[] = [];
             let Ebbinghaus = [0, 1, 2, 4, 7, 15];
             let reviewsDay: string[] = [];
@@ -21,7 +21,7 @@ export default class ReviewStore {
                 reviewsDay.push(moment(Date.now() - i * 24 * 60 * 60 * 1000).format('Y-MM-DD'));
             }
             for (let i of reviewsDay) {
-                for (let j of this.__data) {
+                for (let j of this.data) {
                     if (i === j.date) {
                         reviewToday.push(j)
                     }

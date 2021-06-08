@@ -16,7 +16,7 @@ const WordItem: FC<{
         if(!bing){
             getData(data.id,setBing);
         }
-    },[])
+    },[data,bing,getData])
     useEffect(()=>{
         if(bing){
             setUrl(bing.audio[0].url);
@@ -35,7 +35,7 @@ const WordItem: FC<{
             <Col span={2}>
                 <Voice fileUrl={url}></Voice>
             </Col>
-            <Col span={3}>
+            <Col span={12}>
                 {children}
             </Col>
         </Row>

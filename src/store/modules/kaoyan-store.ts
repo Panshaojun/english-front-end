@@ -114,6 +114,14 @@ export default class KaoYanStore {
         }
     }
 
+    @action.bound delShow(id:number){
+        const index = this.showData.findIndex(i => i.id === id);
+        if(index!==-1){
+            this.showData.splice(index,1);
+            this.showData=[...this.showData]
+        }
+    }
+
     @action.bound upload() {
         this.loading = true;
         const ids: number[] = [];

@@ -3,7 +3,7 @@ import { Row, Col, Button } from 'antd';
 import { observer } from 'mobx-react';
 import useStores from '@/store';
 const WordShow = () => {
-    const { showData, studyData, addStudy, delStudy } = useStores().kaoyanStore;
+    const { showData, studyData, addStudy, delStudy, delShow } = useStores().kaoyanStore;
     return (
         <Row>
             <Col span={12}>
@@ -12,9 +12,17 @@ const WordShow = () => {
                         return (
                             <li key={i.id}>
                                 <WordItem data={i} >
-                                    <Button onClick={() => addStudy(i.id)}>
-                                        学习
+                                    <Row>
+                                        <Col span={12}>
+                                            <Button onClick={() => delShow(i.id)}>
+                                                我认识
                                         </Button>
+                                        </Col>
+                                        <Col span={12}>
+                                            <Button onClick={() => addStudy(i.id)}>
+                                                学习
+                                        </Button></Col>
+                                    </Row>
                                 </WordItem>
                             </li>
                         )
