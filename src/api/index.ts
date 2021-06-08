@@ -5,6 +5,6 @@ export type ResponseType<T> ={
     msg?:string
 }
 export const api=axios.create({ //我自己服务器的api
-    baseURL:"/model/",
+    baseURL:"/api/",
     responseType:'json'
 })
