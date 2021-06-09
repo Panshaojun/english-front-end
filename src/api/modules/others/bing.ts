@@ -1,6 +1,6 @@
 import axios from 'axios';
 import to from 'await-to-js';
-import {ResponseType} from '@/api';
+import { ResponseType } from '@/api';
 import { KaoYanBing } from '@/api/modules/server/kaoyan-bing';
 import { getAuido } from '@/api/utils/bingParser/auido';
 import { getDefinition } from '@/api/utils/bingParser/definition';
@@ -12,10 +12,10 @@ import { getSider } from '@/api/utils/bingParser/sider';
 import { getWordChange } from '@/api/utils/bingParser/word-change';
 
 const api = axios.create({
-    baseURL: "/api/test/bing?word=",
+    baseURL: "/test/bing?word=",
     responseType: "document"
 })
-let domparser = new DOMParser()​​;
+let domparser = new DOMParser();
 const getDom: (word: string) => Promise<HTMLDocument | undefined> = async (word: string) => {
     if (word === '') {
         return undefined;
@@ -25,8 +25,8 @@ const getDom: (word: string) => Promise<HTMLDocument | undefined> = async (word:
     if (err) {
         console.log(`抓取 ${word} 失败！`)
     } else if (res) {
-        if(res.data.code===0){
-            return domparser.parseFromString(res.data.data!,"text/html");
+        if (res.data.code === 0) {
+            return domparser.parseFromString(res.data.data!, "text/html");
         }
     }
     return undefined;
