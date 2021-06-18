@@ -16,3 +16,9 @@ export const findOne=(id:number)=>{
     return KaoyanVocabularyModel.findOne<KaoyanVocabularyData>(id)
 }
 
+export const findByArray=(ids:number[])=>{
+    return KaoyanVocabularyModel.findWhere<KaoyanVocabularyData[]>({
+        where:{id:ids}
+    })
+}
+

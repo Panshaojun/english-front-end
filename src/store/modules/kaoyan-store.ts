@@ -27,7 +27,16 @@ export default class KaoYanStore {
         makeObservable(this);
         this.fetchData();
     }
-
+    @action
+    getData(){
+        let temp=localStorage.getItem('data')||false;
+        if(temp){
+            console.log("本地获取了data");
+            this.__data=JSON.parse(temp);
+        }else{
+            this.fetchData();
+        }
+    }
     fetchData() {
         if (this.__data.length) {
             ReviewFindAll().then(action((res) => {
