@@ -1,5 +1,5 @@
 import RootStore from "./root-store";
-import { observable, action, makeObservable } from 'mobx';
+import { observable, action, makeObservable,autorun } from 'mobx';
 import { KaoYan, findAll as KaoyanFindAll } from '@/api/modules/server/kaoyan';
 
 class DataStore {
@@ -21,7 +21,7 @@ class DataStore {
             this.fetch();
         }
     }
-
+    
     @action.bound
     fetch() {
         if (this.fetching) {
