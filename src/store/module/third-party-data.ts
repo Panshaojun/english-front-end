@@ -1,11 +1,12 @@
 import RootStore from "./root-store";
+import { observable, action, makeObservable } from 'mobx';
 import { KaoyanVocabularyData, findByArray as findVocabularys } from '@/api/modules/server/kaoyan-vocabulary';
 import { KaoYanBingData, findByArray as findBings } from '@/api/modules/server/kaoyan-bing';
 
 class ThirdPartyData {
-    fetching = false;
-    bing: KaoYanBingData[] = [];
-    vocalbulary: KaoyanVocabularyData[] = [];
+    @observable fetching = false;
+    @observable.ref bing: KaoYanBingData[] = [];
+    @observable.ref vocalbulary: KaoyanVocabularyData[] = [];
     private __ids: number[] = [];//已经获取的id
     //  请求数据队列，这样的弊端是只能一次次的请求，而不能并发请求
     //  为什么我不设计成异步请求，这样多个请求就可以一起请求了？
@@ -17,9 +18,13 @@ class ThirdPartyData {
         callBack: Function
     }[] = [];
 
-    constructor(public rootStore: RootStore) { }
+    constructor(public rootStore: RootStore) {
+        makeObservable(this);
+        this.getBing=this.getBing.bind(this);
+        this.getVocalbulary=this.getVocalbulary.bind(this);
+    }
 
-    fetch(ids: number[], callBack: Function) {
+    @action.bound fetch(ids: number[], callBack: Function) {
         if (this.fetching) {
             this.__fetchQueue.push({
                 ids,
@@ -44,19 +49,21 @@ class ThirdPartyData {
                     callBack();
                 }).finally(()=>{
                     this.fetching=false;
+                    if(this.__fetchQueue.length){
+                        const temp=this.__fetchQueue.pop();
+                        this.fetch(temp!.ids,temp!.callBack);
+                    }
                 })
             }
         }
     }
 
-    getBing(id: number, setCall: (data: KaoYanBingData) => void) {
-        const ans = this.bing.find(i => i.id === id);
-        ans && setCall(ans);
+    getBing(id: number) {
+        return this.bing.find(i => i.id === id);
     }
 
-    getVocalbulary(id: number, setCall: (data: KaoyanVocabularyData) => void) {
-        const ans = this.vocalbulary.find(i => i.id === id);
-        ans && setCall(ans);
+    getVocalbulary(id: number) {
+        return this.vocalbulary.find(i => i.id === id);
     }
 
 }
