@@ -4,7 +4,7 @@ import moment from 'moment';
 class ReviewStore {
     @observable fetching = true;
     callBacks:Function[]=[];
-    @observable public uploading = false;                 //上传状态
+    @observable public uploading = false;                   //上传状态
     @observable.ref public data: ReviewData[] = [];         //所有复习
     @observable.ref public reviewToday: ReviewData[] = [];  //今日复习
 
@@ -12,8 +12,19 @@ class ReviewStore {
         makeObservable(this);
         this.fetch();
     }
+    @action setFetching(fetching:boolean){
+        if(this.fetching!==fetching){
+            this.fetching=fetching;
+        }
+    }
+    @action setUploading(uploading:boolean){
+        if(this.uploading!==uploading){
+            this.uploading=uploading;
+        }
+    }
+    @action 
 
-    fetch(res?:Function) {
+    fetch() {
         if (this.fetching) {
             return;
         } else {

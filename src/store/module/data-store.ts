@@ -1,39 +1,43 @@
 import { observable, action, makeObservable } from 'mobx';
 import { KaoYan, findAll as KaoyanFindAll } from '@/api/modules/server/kaoyan';
+import to from 'await-to-js';
 
 class DataStore {
     @observable fetching = false;
     @observable.ref data: KaoYan[] = []
     constructor() {
         makeObservable(this);
-        this.init();
-    }
-
-    @action
-    init() {
-        let temp = localStorage.getItem('data') || false;
-        if (temp) {
+        const data = localStorage.getItem('data') || false;
+        if (data) {
             console.log("本地获取了data");
-            this.data = JSON.parse(temp);
+            this.setData(JSON.parse(data));
         } else {
             this.fetch();
         }
     }
-    
-    @action.bound
-    fetch() {
-        if (this.fetching) {
-            return;
+    @action setData(data: KaoYan[]) {
+        this.data = data;
+    }
+    @action setFetching(fetching: boolean) {
+        if (this.fetching !== fetching) {
+            this.fetching = fetching;
         }
-        this.fetching = true;
-        KaoyanFindAll<KaoYan[]>().then(action(res => {
-            if (res) {
-                this.data = res;
-                localStorage.setItem('data', JSON.stringify(res));
-            }
-        })).finally(action(() => {
-            this.fetching = false;
-        }))
+    }
+
+    async fetch() {
+        if (this.fetching) {
+            return Promise.reject("加载中");
+        }
+        this.setFetching(true);
+        const [err, data] = await to(KaoyanFindAll<KaoYan[]>());
+        this.setFetching(false);
+        if (err) {
+            return Promise.reject("数据获取失败");
+        } else {
+            this.setData(data!);
+            localStorage.setItem('data', JSON.stringify(data!));
+        }
+        return Promise.resolve("获取数据成功")
     }
 }
 
