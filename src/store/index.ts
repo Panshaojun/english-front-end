@@ -1,7 +1,12 @@
 import { createContext, useContext } from 'react';
-import Store from './module/root-store'
+import DataStore from './module/data-store';
+import ReviewStore from './module/review-store';
+import ThirdPartyStore from './module/third-party-store';
+
 const storeContext = createContext({
-    store:new Store
+    DataStore:new DataStore(),
+    ReviewStore:new ReviewStore(),
+    ThirdPartyStore:new ThirdPartyStore()
 })
 const useStores = () => useContext(storeContext);
 export default useStores;

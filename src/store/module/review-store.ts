@@ -1,7 +1,5 @@
-import RootStore from './root-store';
 import { observable, action, makeObservable } from 'mobx';
 import { findAll as ReviewFindAll, ReviewData } from '@/api/modules/server/review';
-import { KaoYan } from '@/api/modules/server/kaoyan';
 import moment from 'moment';
 class ReviewStore {
     @observable fetching = true;
@@ -10,7 +8,7 @@ class ReviewStore {
     @observable.ref public data: ReviewData[] = [];         //所有复习
     @observable.ref public reviewToday: ReviewData[] = [];  //今日复习
 
-    constructor(public rootStore: RootStore) {
+    constructor() {
         makeObservable(this);
         this.fetch();
     }

@@ -1,12 +1,10 @@
-import RootStore from "./root-store";
-import { observable, action, makeObservable,autorun } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import { KaoYan, findAll as KaoyanFindAll } from '@/api/modules/server/kaoyan';
 
 class DataStore {
     @observable fetching = false;
     @observable.ref data: KaoYan[] = []
-
-    constructor(public rootStore: RootStore) {
+    constructor() {
         makeObservable(this);
         this.init();
     }

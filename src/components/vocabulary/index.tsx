@@ -1,7 +1,9 @@
 import { FC } from 'react';
 import { Popover } from 'antd';
 import { KaoyanVocabularyData } from '@/api/modules/server/kaoyan-vocabulary';
+import withVocabulary from '@/hoc/withVocabulary';
 import './index.scss';
+
 const Vocabulary: FC<{ data: KaoyanVocabularyData | undefined }> = ({ data, children }) => {
     const content = data ? (
         <div className="c-vocabulary">
@@ -11,8 +13,6 @@ const Vocabulary: FC<{ data: KaoyanVocabularyData | undefined }> = ({ data, chil
         </div>
     ) : (<div className="c-vocabulary">
         <h2>找不到数据</h2>
-        <p></p>
-        <p></p>
     </div>);
     return (
         <Popover content={content} title="vocabulary词典">
@@ -21,4 +21,4 @@ const Vocabulary: FC<{ data: KaoyanVocabularyData | undefined }> = ({ data, chil
     )
 }
 
-export default Vocabulary;
+export default withVocabulary(Vocabulary);
