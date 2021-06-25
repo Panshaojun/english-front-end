@@ -14,19 +14,23 @@ class ReviewStore {
         makeObservable(this);
         this.fetch();
     }
+
     @action private setData(data: ReviewData[]) {
         this.data = data;
     }
+
     @action private setFetching(fetching: boolean) {
         if (this.fetching !== fetching) {
             this.fetching = fetching;
         }
     }
+
     @action private setUploading(uploading: boolean) {
         if (this.uploading !== uploading) {
             this.uploading = uploading;
         }
     }
+
     @action private getReviewToday(){
         const reviewToday: ReviewData[] = [];
         let Ebbinghaus = [0, 1, 2, 4, 7, 15];
@@ -43,6 +47,7 @@ class ReviewStore {
         }
         this.reviewToday = reviewToday;
     }
+    
     public async fetch() {
         if (this.fetching) return;
         this.setFetching(true);
@@ -52,19 +57,6 @@ class ReviewStore {
         }
         this.setData(data ?? []);
         this.getReviewToday();
-    }
-
-    public getLastId(): number {
-        let ans = 1;
-        const temp = this.data[this.data.length - 1];
-        if (temp) {
-            for (let i of temp.ids) {
-                if (ans < i) {
-                    ans = i;
-                }
-            }
-        }
-        return ans;
     }
 }
 

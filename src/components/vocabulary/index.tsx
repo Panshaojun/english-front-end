@@ -1,10 +1,11 @@
 import { FC } from 'react';
 import { Popover } from 'antd';
-import { KaoyanVocabularyData } from '@/api/modules/server/kaoyan-vocabulary';
-import withVocabulary from '@/hoc/withVocabulary';
 import './index.scss';
+import { observer } from 'mobx-react';
+import useVocabulary from '@/hooks/use-vocabulary';
 
-const Vocabulary: FC<{ data: KaoyanVocabularyData | undefined }> = ({ data, children }) => {
+const Vocabulary: FC<{ id: number }> = ({ id, children }) => {
+    const data = useVocabulary(id);
     const content = data ? (
         <div className="c-vocabulary">
             <h2>{data.w}</h2>
@@ -21,4 +22,4 @@ const Vocabulary: FC<{ data: KaoyanVocabularyData | undefined }> = ({ data, chil
     )
 }
 
-export default withVocabulary(Vocabulary);
+export default observer(Vocabulary);

@@ -5,8 +5,8 @@ import ThirdPartyStore from "./third-party-store";
 class RootStore {
     dataStore: DataStore;
     reviewStore: ReviewStore;
-    studyStore: StudyStore;
     thirdPartyStore: ThirdPartyStore;
+    studyStore: StudyStore;
 
     constructor() {
         this.dataStore = new DataStore(this);
