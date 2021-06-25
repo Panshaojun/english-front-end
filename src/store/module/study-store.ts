@@ -1,6 +1,8 @@
 import { observable, action, when, makeObservable } from 'mobx';
 import { KaoYan } from '@/api/modules/server/kaoyan';
+import { create } from '@/api/modules/server/review';
 import RootStore from './root-store';
+import moment from 'moment';
 class StudyStore {
     @observable public uploading: boolean = false;
     @observable private __showStartIndex: number = 0;       //开始学习的下标
@@ -12,12 +14,7 @@ class StudyStore {
     constructor(private rootStore: RootStore) {
         makeObservable(this);
         when(
-            () => {
-                if((!rootStore.dataStore.fetching) && (!rootStore.reviewStore.fetching)){
-                    console.log("开始初始化")
-                }
-                return (!rootStore.dataStore.fetching) && (!rootStore.reviewStore.fetching)
-            },// 两个数据都已经加载完毕
+            () => (!rootStore.dataStore.fetching) && (!rootStore.reviewStore.fetching),// 两个数据都已经加载完毕
             () => this.initData()
         )
     }
@@ -58,7 +55,6 @@ class StudyStore {
     @action.bound public addStudy(id: number) {
         const index = this.showData.findIndex(i => i.id === id);
         if (index !== -1 && (this.studyData.length !== this.studyLength)) {
-            console.log("加了学习", id);
             const temp = [...this.studyData, this.showData[index]];
             temp.sort((a, b) => a.id - b.id);
             console.log(temp);
@@ -117,7 +113,18 @@ class StudyStore {
     }
 
     @action.bound public uploadReview() {
-
+        this.uploading = true;
+        const ids: number[] = [];
+        for (let i of this.studyData) {
+            ids.push(i.id);
+        }
+        const date = moment().format('Y-MM-DD');
+        create({
+            date,
+            ids
+        }).then(() => {
+            this.rootStore.reviewStore.fetch();
+        }).finally(action(() => this.uploading = false))
     }
 }
 
