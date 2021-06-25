@@ -7,9 +7,9 @@ const withVocabulary = (Component: FC<{ data: KaoyanVocabularyData | undefined }
     const [data, setData] = useState<KaoyanVocabularyData | undefined>();
     if (!data) {
         console.log("??")
-        const { ThirdPartyStore } = useStores();
-        if (!ThirdPartyStore.fetching) {
-            const ans = ThirdPartyStore.getVocalbulary(id);
+        const { rootStore:{thirdPartyStore} } = useStores();
+        if (!thirdPartyStore.fetching) {
+            const ans = thirdPartyStore.getVocalbulary(id);
             if (ans) {
                 setData(ans)
             }

@@ -1,61 +1,66 @@
 import { observable, action, makeObservable } from 'mobx';
 import { findAll as ReviewFindAll, ReviewData } from '@/api/modules/server/review';
+import to from 'await-to-js';
 import moment from 'moment';
+import RootStore from './root-store';
 class ReviewStore {
     @observable fetching = true;
-    callBacks:Function[]=[];
+    callBacks: Function[] = [];
     @observable public uploading = false;                   //上传状态
     @observable.ref public data: ReviewData[] = [];         //所有复习
     @observable.ref public reviewToday: ReviewData[] = [];  //今日复习
 
-    constructor() {
+    constructor(private rootStore:RootStore) {
         makeObservable(this);
         this.fetch();
     }
-    @action setFetching(fetching:boolean){
-        if(this.fetching!==fetching){
-            this.fetching=fetching;
+    @action private setData(data: ReviewData[]) {
+        this.data = data;
+    }
+    @action private setFetching(fetching: boolean) {
+        if (this.fetching !== fetching) {
+            this.fetching = fetching;
         }
     }
-    @action setUploading(uploading:boolean){
-        if(this.uploading!==uploading){
-            this.uploading=uploading;
+    @action private setUploading(uploading: boolean) {
+        if (this.uploading !== uploading) {
+            this.uploading = uploading;
         }
     }
-    @action 
-
-    fetch() {
-        if (this.fetching) {
-            return;
-        } else {
-            this.fetching = true;
-            ReviewFindAll().then(action((res) => {
-                this.data = res ?? [];
-                const reviewToday: ReviewData[] = [];
-                let Ebbinghaus = [0, 1, 2, 4, 7, 15];
-                let reviewsDay: string[] = [];
-                for (let i of Ebbinghaus) {
-                    reviewsDay.push(moment(Date.now() - i * 24 * 60 * 60 * 1000).format('Y-MM-DD'));
+    @action private getReviewToday(){
+        const reviewToday: ReviewData[] = [];
+        let Ebbinghaus = [0, 1, 2, 4, 7, 15];
+        let reviewsDay: string[] = [];
+        for (let i of Ebbinghaus) {
+            reviewsDay.push(moment(Date.now() - i * 24 * 60 * 60 * 1000).format('Y-MM-DD'));
+        }
+        for (let i of reviewsDay) {
+            for (let j of this.data) {
+                if (i === j.date) {
+                    reviewToday.push(j)
                 }
-                for (let i of reviewsDay) {
-                    for (let j of this.data) {
-                        if (i === j.date) {
-                            reviewToday.push(j)
-                        }
-                    }
-                }
-                this.reviewToday = reviewToday;
-            })).finally(action(() => this.fetching = false))
+            }
         }
+        this.reviewToday = reviewToday;
+    }
+    public async fetch() {
+        if (this.fetching) return;
+        this.setFetching(true);
+        const [err, data] = await to(ReviewFindAll());
+        if (err) {
+            return alert("获取复习数据失败！");
+        }
+        this.setData(data ?? []);
+        this.getReviewToday();
     }
 
-    getLastId():number{
-        let ans=1;
-        const temp=this.data[this.data.length-1];
-        if(temp){
-            for(let i of temp.ids){
-                if(ans < i){
-                    ans=i;
+    public getLastId(): number {
+        let ans = 1;
+        const temp = this.data[this.data.length - 1];
+        if (temp) {
+            for (let i of temp.ids) {
+                if (ans < i) {
+                    ans = i;
                 }
             }
         }

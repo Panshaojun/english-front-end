@@ -1,9 +1,9 @@
-import { observable, action, makeObservable, computed } from 'mobx';
+import { observable, action, makeObservable } from 'mobx';
 import { KaoyanVocabularyData, findByArray as findVocabularys } from '@/api/modules/server/kaoyan-vocabulary';
 import { KaoYanBingData, findByArray as findBings } from '@/api/modules/server/kaoyan-bing';
 import to from 'await-to-js';
-
-class ThirdPartyData {
+import RootStore from './root-store';
+class ThirdPartyStore {
     @observable fetching = false;
     @observable.ref bing: KaoYanBingData[] = [];
     @observable.ref vocalbulary: KaoyanVocabularyData[] = [];
@@ -18,7 +18,7 @@ class ThirdPartyData {
         callBack: Function
     }[] = [];
 
-    constructor() {
+    constructor(private rootStore:RootStore) {
         makeObservable(this);
         this.getBing = this.getBing.bind(this);
         this.getVocalbulary = this.getVocalbulary.bind(this);
@@ -65,4 +65,4 @@ class ThirdPartyData {
     }
 }
 
-export default ThirdPartyData;
+export default ThirdPartyStore;

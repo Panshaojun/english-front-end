@@ -1,11 +1,12 @@
 import { observable, action, makeObservable } from 'mobx';
 import { KaoYan, findAll as KaoyanFindAll } from '@/api/modules/server/kaoyan';
 import to from 'await-to-js';
+import RootStore from './root-store';
 
 class DataStore {
     @observable fetching = false;
     @observable.ref data: KaoYan[] = []
-    constructor() {
+    constructor(private rootStore:RootStore) {
         makeObservable(this);
         const data = localStorage.getItem('data') || false;
         if (data) {
