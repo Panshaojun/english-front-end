@@ -8,4 +8,8 @@ module.exports = function (app) {
             '^/api': '/',
         }
     }))
+    app.use('/file', createProxyMiddleware({
+        target: "http://localhost:1337/",
+        changeOrigin: true,
+    }))
 }

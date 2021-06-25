@@ -5,7 +5,8 @@ import Vocabulary from '@/components/vocabulary';
 import ChineseTranslation from '@/components/chinese-translation';
 import Voice from '@/components/voice';
 import useBing from '@/hooks/use-bing';
-const WordItem: FC<{
+import { observer } from 'mobx-react';
+const Item: FC<{
     data: KaoYan,
 }> = ({ data, children }) => {
     const bing=useBing(data.id);
@@ -38,4 +39,4 @@ const WordItem: FC<{
     )
 }
 
-export default WordItem;
+export default observer(Item);

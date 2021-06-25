@@ -4,7 +4,7 @@ import to from 'await-to-js';
 import moment from 'moment';
 import RootStore from './root-store';
 class ReviewStore {
-    @observable fetching = true;
+    @observable fetching = false;
     callBacks: Function[] = [];
     @observable public uploading = false;                   //上传状态
     @observable.ref public data: ReviewData[] = [];         //所有复习
@@ -20,15 +20,11 @@ class ReviewStore {
     }
 
     @action private setFetching(fetching: boolean) {
-        if (this.fetching !== fetching) {
-            this.fetching = fetching;
-        }
+        this.fetching=fetching;
     }
 
     @action private setUploading(uploading: boolean) {
-        if (this.uploading !== uploading) {
-            this.uploading = uploading;
-        }
+        this.uploading=uploading;
     }
 
     @action private getReviewToday(){
@@ -53,9 +49,10 @@ class ReviewStore {
         this.setFetching(true);
         const [err, data] = await to(ReviewFindAll());
         if (err) {
-            return alert("获取复习数据失败！");
+            alert("获取复习数据失败！");
         }
         this.setData(data ?? []);
+        this.setFetching(false);
         this.getReviewToday();
     }
 }

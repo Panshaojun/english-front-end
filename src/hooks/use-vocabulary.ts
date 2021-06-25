@@ -9,7 +9,7 @@ const useVocabulary: (id: number) => KaoyanVocabularyData | undefined = (id: num
         if (!data) {
             setData(thirdPartyStore.getVocalbulary(id));
         }
-    }, [thirdPartyStore.fetching])
+    }, [thirdPartyStore.fetching,id,data,thirdPartyStore])
     return data;
 }
 
