@@ -1,6 +1,6 @@
 import axios from 'axios';
 import to from 'await-to-js';
-import { ResponseType } from '@/api';
+import { ResponseType } from '@/api/utils/common-api';
 import { KaoyanVocabulary } from '@/api/modules/server/kaoyan-vocabulary';
 import { getLong } from '@/api/utils/vocabularyParser/long';
 import { getShort } from '@/api/utils/vocabularyParser/short';

@@ -20,9 +20,8 @@ class StudyStore {
     }
 
     @action private initShowStartIndex() {
-        let maxId = 1;
+        let maxId = 0;
         const data = this.rootStore.reviewStore.data;
-        console.log(data);
         const temp = data[data.length - 1];
         if (temp) {
             for (let i of temp.ids) {
@@ -32,12 +31,10 @@ class StudyStore {
             }
         }
         let index = this.rootStore.dataStore.data.findIndex(i => i.id === maxId);
-        console.log(index);
-        this.__showStartIndex = index === -1 ? 0 : index;
+        this.__showStartIndex = index === -1 ? 0 : (index+1);
     }
 
     @action private initData() {
-        console.log("初始化学习数据！");
         this.__showLength = 50;
         this.studyData = [];
         this.studyLength = 50;

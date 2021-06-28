@@ -1,6 +1,7 @@
 import { observable, action, makeObservable } from 'mobx';
-import { KaoyanVocabularyData, findByArray as findVocabularys } from '@/api/modules/server/kaoyan-vocabulary';
-import { KaoYanBingData, findByArray as findBings } from '@/api/modules/server/kaoyan-bing';
+import { KaoyanVocabularyData } from '@/api/modules/server/kaoyan-vocabulary';
+import { KaoYanBingData} from '@/api/modules/server/kaoyan-bing';
+import {getBing,getVocabulary} from '@/api/modules/server/db';
 import to from 'await-to-js';
 import RootStore from './root-store';
 class ThirdPartyStore {
@@ -42,7 +43,7 @@ class ThirdPartyStore {
         const allIds = [...notRepetitiveIds];
         const fetchIds = allIds.slice(this.__ids.length);
         this.setFetching(true);
-        const [err, res] = await to(Promise.all([findBings(fetchIds), findVocabularys(fetchIds)]));
+        const [err, res] = await to(Promise.all([getBing(fetchIds), getVocabulary(fetchIds)]));
         this.setFetching(false);
         if (err) {
             return alert("获取数据失败");

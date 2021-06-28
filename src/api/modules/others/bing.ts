@@ -1,6 +1,6 @@
 import axios from 'axios';
 import to from 'await-to-js';
-import { ResponseType } from '@/api';
+import { ResponseType } from '@/api/utils/common-api';
 import { KaoYanBing } from '@/api/modules/server/kaoyan-bing';
 import { getAuido } from '@/api/utils/bingParser/auido';
 import { getDefinition } from '@/api/utils/bingParser/definition';
