@@ -3,12 +3,13 @@ import { findAll as ReviewFindAll, ReviewData } from '@/api/modules/server/revie
 import to from 'await-to-js';
 import moment from 'moment';
 import RootStore from './root-store';
+import { KaoYan } from '@/api/modules/server/kaoyan';
 class ReviewStore {
     @observable fetching = false;
-    callBacks: Function[] = [];
     @observable public uploading = false;                   //上传状态
     @observable.ref public data: ReviewData[] = [];         //所有复习
     @observable.ref public reviewToday: ReviewData[] = [];  //今日复习
+    @observable.ref public reviewData: KaoYan[] = [];  //今日复习
 
     constructor(private rootStore:RootStore) {
         makeObservable(this);
@@ -21,10 +22,6 @@ class ReviewStore {
 
     @action private setFetching(fetching: boolean) {
         this.fetching=fetching;
-    }
-
-    @action private setUploading(uploading: boolean) {
-        this.uploading=uploading;
     }
 
     @action private getReviewToday(){
@@ -54,6 +51,11 @@ class ReviewStore {
         this.setData(data ?? []);
         this.setFetching(false);
         this.getReviewToday();
+    }
+
+    @action.bound getReviewData(ids:number[]){
+        const data=this.rootStore.dataStore.data;
+        this.reviewData=ids.map(i=>(data.find(j=>j.id===i))!);
     }
 }
 

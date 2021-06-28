@@ -1,4 +1,4 @@
-import { observable, action, when, makeObservable } from 'mobx';
+import { observable, action, autorun, makeObservable } from 'mobx';
 import { KaoYan } from '@/api/modules/server/kaoyan';
 import { create } from '@/api/modules/server/review';
 import RootStore from './root-store';
@@ -8,17 +8,17 @@ class StudyStore {
     @observable private __showStartIndex: number = 0;       //开始学习的下标
     @observable private __showLength: number = 50;          //展示的总长度
     @observable.ref public studyData: KaoYan[] = [];        //学习数组
-    @observable public studyLength: number = 50;             //学习长度
+    @observable public studyLength: number = 50;            //学习长度
     @observable.ref public showData: KaoYan[] = [];         //展示数组
     @observable.ref public deletedData: KaoYan[] = [];
     constructor(private rootStore: RootStore) {
         makeObservable(this);
-        when(
-            () => (!rootStore.dataStore.fetching) && (!rootStore.reviewStore.fetching),// 两个数据都已经加载完毕
-            () => this.initData()
-        )
+        autorun(() => {
+            if ((!rootStore.dataStore.fetching) && (!rootStore.reviewStore.fetching)) {
+                this.initData()
+            }
+        })
     }
-
     @action private initShowStartIndex() {
         let maxId = 0;
         const data = this.rootStore.reviewStore.data;
@@ -31,7 +31,7 @@ class StudyStore {
             }
         }
         let index = this.rootStore.dataStore.data.findIndex(i => i.id === maxId);
-        this.__showStartIndex = index === -1 ? 0 : (index+1);
+        this.__showStartIndex = index === -1 ? 0 : (index + 1);
     }
 
     @action private initData() {
@@ -54,7 +54,6 @@ class StudyStore {
         if (index !== -1 && (this.studyData.length !== this.studyLength)) {
             const temp = [...this.studyData, this.showData[index]];
             temp.sort((a, b) => a.id - b.id);
-            console.log(temp);
             this.studyData = temp;
             this.showData.splice(index, 1);
         }
@@ -109,19 +108,23 @@ class StudyStore {
         this.studyLength = ans;
     }
 
-    @action.bound public uploadReview() {
-        this.uploading = true;
+    @action setUploading(status: boolean) {
+        this.uploading = status;
+    }
+
+    @action.bound public async uploadStudy() {
+        if (this.uploading) {
+            return;
+        }
+        this.setUploading(true);
         const ids: number[] = [];
         for (let i of this.studyData) {
             ids.push(i.id);
         }
         const date = moment().format('Y-MM-DD');
-        create({
-            date,
-            ids
-        }).then(() => {
-            this.rootStore.reviewStore.fetch();
-        }).finally(action(() => this.uploading = false))
+        await create({ date, ids });
+        this.rootStore.reviewStore.fetch();
+        this.setUploading(false)
     }
 }
 

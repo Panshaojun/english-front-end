@@ -8,7 +8,7 @@ import useBing from '@/hooks/use-bing';
 import { observer } from 'mobx-react';
 const Item: FC<{
     data: KaoYan,
-}> = ({ data, children }) => {
+}> = ({ data }) => {
     const bing=useBing(data.id);
     const [url,setUrl]=useState<string>('');
     useEffect(()=>{
@@ -21,6 +21,7 @@ const Item: FC<{
 
     return (
         <Row>
+            <Col span={1}></Col>
             <Col span={6}>
                 <Vocabulary id={data.id}>
                     {data.w}
@@ -31,9 +32,6 @@ const Item: FC<{
             </Col>
             <Col span={2}>
                 <Voice fileUrl={url}></Voice>
-            </Col>
-            <Col span={12}>
-                {children}
             </Col>
         </Row>
     )

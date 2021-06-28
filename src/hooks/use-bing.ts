@@ -9,7 +9,7 @@ const useBing: (id: number) => KaoYanBingData | undefined = (id: number) => {
         if (!data) {
             setData(thirdPartyStore.getBing(id));
         }
-    }, [thirdPartyStore.fetching])
+    }, [thirdPartyStore.fetching,data,id,thirdPartyStore])
     return data;
 }
 

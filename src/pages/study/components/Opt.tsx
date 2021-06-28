@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import useStores from '@/store';
 
 const TopOpt = () => {
-    const { studyData, uploading, studyLength, addShowLength, addStudyLength, uploadReview } = useStores().rootStore.studyStore;
+    const { studyData, uploading, studyLength, addShowLength, addStudyLength, uploadStudy } = useStores().rootStore.studyStore;
     return (
         <Row className="study-top">
             <Col span={12}>
@@ -14,7 +14,7 @@ const TopOpt = () => {
                 现在共计学习单词{studyData.length}/{studyLength}个
             </Col>
             <Col span={4}>
-                {studyData.length === studyLength && <Button type="primary" onClick={uploadReview} loading={uploading}>学习完毕,点击上传</Button>}
+                {studyData.length === studyLength && <Button type="primary" onClick={()=>uploadStudy()} loading={uploading}>学习完毕,点击上传</Button>}
             </Col>
             <Col span={2}>
                 <Button type="primary" onClick={() => addStudyLength(10)}>添加10个</Button>
