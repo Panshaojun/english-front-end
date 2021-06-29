@@ -1,4 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
+import { AxiosResponse } from 'axios';
+import { api } from '@/api';
 import to from 'await-to-js';
 
 export type ResponseType<T> = {
@@ -7,10 +8,6 @@ export type ResponseType<T> = {
     msg?: string
 }
 
-const api = axios.create({ //我自己服务器的api
-    baseURL: "/api/",
-    responseType: 'json'
-})
 
 export const get=<T>(url:string,params:object)=>to(api.get<ResponseType<T>>(url,{params}));
 

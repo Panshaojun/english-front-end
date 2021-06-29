@@ -13,8 +13,7 @@ class DataStore {
             console.log("本地获取了data");
             this.setData(JSON.parse(data));
         } else {
-            this.setFetching(true);
-            this.fetch().finally(()=>this.setFetching(false));
+            this.fetch();
         }
     }
     @action setData(data: KaoYan[]) {
@@ -30,6 +29,7 @@ class DataStore {
         if (this.fetching) {
             return Promise.reject("加载中");
         }
+        this.setFetching(true);
         const [err, data] = await to(KaoyanFindAll<KaoYan[]>());
         let ans: Promise<string> = Promise.reject("数据获取失败");
         if (!err) {
@@ -37,6 +37,7 @@ class DataStore {
             localStorage.setItem('data', JSON.stringify(data!));
             ans = Promise.resolve("获取数据成功")
         }
+        this.setFetching(false);
         return ans;
     }
 }
